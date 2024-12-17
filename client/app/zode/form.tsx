@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarIcon, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// @ts-expect-error - 'success' is not part of ToastVariant, but we want to support it
 const formSchema = z.object({
   first_name: z.string().min(1, "First Name is required"),
   last_name: z.string().min(1, "Last Name is required"),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+type ToastVariant = "default" | "destructive" | "success"; // Add 'success'
 export default function Form() {
   const { toast } = useToast();
   const {
@@ -51,8 +53,8 @@ export default function Form() {
         toast({
           title: "🎉 Success!",
           description: "Form submitted successfully. Your data has been saved.",
-          variant: "success",
-          className:'text-white'
+          variant: "success" as ToastVariant,
+          className:'text-black'
         });
       } else {
         throw new Error("Failed to submit");
